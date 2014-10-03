@@ -9,6 +9,8 @@ class HTMLRenderer
 			$body = "NULL";
 		}
 
+		$day = utf8_encode(strftime("%A"));
+
 		echo 	"
 				<!DOCTYPE html>
 				<html lang=\"sv\">
@@ -18,8 +20,10 @@ class HTMLRenderer
 					$head
 				</head>
 				<body>
-					$body
-				</body>
+					$body"
+					. "<br/><br/>" 
+					. strftime("$day, den %d %B år %Y. Klockan är [%X].") //gmdate("[H:i:s].", time() + 2 * 60 * 60)
+				. "</body>
 				</html>";
 	}
 }

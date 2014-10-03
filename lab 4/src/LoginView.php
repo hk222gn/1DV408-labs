@@ -70,6 +70,7 @@ class LoginView
 		{
 			$nameInput = $this->GetUsernameInput();
 			$HTMLString = 	"<h1>Laborationskod hk222gn</h1>
+							<a href='?register'>Registrera ny användare</a>
 							<form name='f1' method='post' action='?login'>
 							<h3>Användarnamn</h3>
 							<input type='text' name='username' value='$nameInput'>
@@ -97,10 +98,6 @@ class LoginView
 		{
 			$HTMLString .= $feedbackMsg;
 		}
-
-		$day = utf8_encode(strftime("%A"));
-
-		$HTMLString .= "<br/><br/>" . strftime("$day, den %d %B år %Y. Klockan är [%X]."); //gmdate("[H:i:s].", time() + 2 * 60 * 60)
 		return $HTMLString;
 	}
 
@@ -114,18 +111,18 @@ class LoginView
 		return $this->feedbackMessage;
 	}
 
-    public function SaveUserCookie($us, $pw)
+    public function SaveUserCookie($name, $tempPW)
     {
-    	$cookieExpirationTime = time() + 60 + 60 * 24;
+    	$cookieExpirationTime = time() + 30;// * 60 * 24;
 
     	if ($this->AreCookiesSet()) 
     	{
     		$this->UnsetUserCookies();
     	}
-        setcookie('username', $us, $cookieExpirationTime);
-        setcookie('password', $pw, $cookieExpirationTime);
+        setcookie('username', $name, $cookieExpirationTime);
+        setcookie('password', $tempPW, $cookieExpirationTime);
 
-        $this->model->StoreCookieExpirationTime($cookieExpirationTime);
+        $this->model->StoreCookieExpirationTime($name, $cookieExpirationTime);
 
         return "Inloggningen lyckades och vi kommer ihåg dig nästa gång!";
     }
@@ -164,5 +161,4 @@ class LoginView
     	}
     	return "";
     }
-
 }

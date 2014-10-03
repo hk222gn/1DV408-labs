@@ -1,13 +1,20 @@
 <?php
+require_once("src/UserRepository.php");
 
 class LoginModel
 {
 	private static $usernameSession = "loggedIn";
 	private static $userAgentSession = "userAgent";
 	private static $userIPSession = "userIP";
-	private $password = "Password";
-	private $username = "Admin";
+	//private $password = "Password";
+	//private $username = "Admin";
 	private $loginStatus = false;
+	private $userRepository;
+
+	public function __construct()
+	{
+		$this->userRepository = new UserRepository();
+	}
 
 	public function GetLoginStatus()
 	{
@@ -98,69 +105,73 @@ class LoginModel
 		}
 		else //We give the user a error message if the authentication failed.
 		{
-			if ($cookie) 
+			if ($cookie)
+			{
 				return "Felaktig information i cookie";
+			}
 			else
 				return "Fel användarnamn och/eller lösenord!";
 		}
 	}
 
 	//Checks if the username and password exists and are correct.
-	public function CheckUserLogin($user, $pw, $cookie)
+	public function CheckUserLogin($name, $pw, $cookie)
 	{
-		if ($cookie) 
+		$user = $this->userRepository->GetUserByName($name);
+
+		if ($user == NULL)
+			return false;
+
+		if ($cookie)
 		{
 			//Check if the cookie has expired.
-			if ($this->GetCookieExpirationTime() < time()) 
+			if ($user->GetTempPWExpiration() < time()) 
 				return false;
 
 			//Compare the password in the temp password text file.
-			if ($user == $this->username && $pw == $this->GetOneTimePassword($user)) 
+			if ($user->GetName() == $name && $user->GetTempPW() == $pw) 
 				return true;
 		}
 		else
 		{
-			if ($user === $this->username && $pw === $this->password) 
+			if ($user->GetName() == $name && $user->GetPassword() == $pw)
 				return true;
 		}
 
 		return false;
 	}
 
-	public function CreateOneTimePassword($user)
+	public function CreateOneTimePassword($name)
 	{
 		$signs = "1234567890";
 		$strLength = strlen($signs) - 1;
-		$oneTimePassword = "";
+		$tempPW = "";
 		
 		//Create the random password based on the $signs string.
 		for ($i = 0; $i < 12; $i++) 
 		{
 			$rand = rand(0, $strLength);
-			$oneTimePassword .= $signs[$rand];
+			$tempPW .= $signs[$rand];
 		}
 
-		//Save the cookie with the username in a file.
-		//$fopen = fopen($user . ".txt", 'w');
-		//fwrite($fopen, $oneTimePassword);
+		$this->userRepository->SetTempPW($name, $tempPW);
 
-		file_put_contents($user, $oneTimePassword);
-
-		return $oneTimePassword;
+		return $tempPW;
 	}
 
-	public function GetOneTimePassword($user)
+	//public function GetOneTimePassword($user)
+	//{
+	//	return file_get_contents($user);
+	//}
+
+	public function StoreCookieExpirationTime($name, $cookieExpirationTime)
 	{
-		return file_get_contents($user);
+		$this->userRepository->SetTempPWExpiration($name, $cookieExpirationTime);
+		//file_put_contents("CookieExpirationTime", $cookieExpirationTime);
 	}
 
-	public function StoreCookieExpirationTime($cookieExpirationTime)
-	{
-		file_put_contents("CookieExpirationTime", $cookieExpirationTime);
-	}
-
-	public function GetCookieExpirationTime()
-	{
-		return file_get_contents("CookieExpirationTime");
-	}
+	//public function GetCookieExpirationTime()
+	//{
+	//	return file_get_contents("CookieExpirationTime");
+	//}
 }
