@@ -12,7 +12,7 @@ class UserRepository extends Repository
 
 	public function __construct()
 	{
-		$this->DBTable = "User";
+		$this->DBTable = "user";
 	}
 
 	public function AddUser(User $user)
@@ -27,9 +27,9 @@ class UserRepository extends Repository
 			$query = $DB->prepare($sql);
 			$query->execute($params);
 		}
-		catch (\PDOException $e)
+		catch (PDOException $e)
 		{
-			throw new \Exception("Error 2.");
+			die("Error 2");
 		}
 	}
 
@@ -56,9 +56,9 @@ class UserRepository extends Repository
 
 			return NULL;
 		}
-		catch (\PDOException $e)
+		catch (PDOException $e)
 		{
-			throw new \Exception("Error 1.");
+			die("Error 1");
 		}
 	}
 
@@ -74,9 +74,9 @@ class UserRepository extends Repository
 			$query = $DB->prepare($sql);
 			$query->execute($params);
 		}
-		catch (\PDOException $e)
+		catch (PDOException $e)
 		{
-			throw new \Exception("Error 3");
+			die("Error 3");
 		}
 	}
 
@@ -92,9 +92,9 @@ class UserRepository extends Repository
 			$query = $DB->prepare($sql);
 			$query->execute($params);
 		}
-		catch (\PDOException $e)
+		catch (PDOException $e)
 		{
-			throw new \Exception("Error 4");
+			die("Error 4");
 		}
 	}
 }

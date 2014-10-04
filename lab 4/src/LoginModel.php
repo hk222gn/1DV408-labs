@@ -6,8 +6,6 @@ class LoginModel
 	private static $usernameSession = "loggedIn";
 	private static $userAgentSession = "userAgent";
 	private static $userIPSession = "userIP";
-	//private $password = "Password";
-	//private $username = "Admin";
 	private $loginStatus = false;
 	private $userRepository;
 
@@ -89,7 +87,6 @@ class LoginModel
 		}
 		//Remove whitespace and convert to lower case, all usernames are lowercase.
 		trim($user);
-		//$user = strtolower($user);
 
 		//Check the provided login information
 		if($this->CheckUserLogin($user, $pw, $cookie))
@@ -129,12 +126,12 @@ class LoginModel
 				return false;
 
 			//Compare the password in the temp password text file.
-			if ($user->GetName() == $name && $user->GetTempPW() == $pw) 
+			if ($user->GetTempPW() == $pw) 
 				return true;
 		}
 		else
 		{
-			if ($user->GetName() == $name && $user->GetPassword() == $pw)
+			if ($user->GetPassword() == $pw)
 				return true;
 		}
 
@@ -159,19 +156,8 @@ class LoginModel
 		return $tempPW;
 	}
 
-	//public function GetOneTimePassword($user)
-	//{
-	//	return file_get_contents($user);
-	//}
-
 	public function StoreCookieExpirationTime($name, $cookieExpirationTime)
 	{
 		$this->userRepository->SetTempPWExpiration($name, $cookieExpirationTime);
-		//file_put_contents("CookieExpirationTime", $cookieExpirationTime);
 	}
-
-	//public function GetCookieExpirationTime()
-	//{
-	//	return file_get_contents("CookieExpirationTime");
-	//}
 }

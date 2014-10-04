@@ -113,7 +113,7 @@ class LoginView
 
     public function SaveUserCookie($name, $tempPW)
     {
-    	$cookieExpirationTime = time() + 30;// * 60 * 24;
+    	$cookieExpirationTime = time() + 60 * 60;
 
     	if ($this->AreCookiesSet()) 
     	{

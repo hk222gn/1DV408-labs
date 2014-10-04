@@ -11,9 +11,9 @@ class Repository
 	protected function connection()
 	{
 		if ($this->DBConnection == NULL)
-			$this->DBConnection = new \PDO($this->DBConnectionString, $this->DBUser, $this->DBPassword);
+			$this->DBConnection = new PDO($this->DBConnectionString, $this->DBUser, $this->DBPassword);
 
-		$this->DBConnection->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
+		$this->DBConnection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
 		return $this->DBConnection;
 	}	
