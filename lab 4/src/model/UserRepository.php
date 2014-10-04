@@ -1,6 +1,6 @@
 <?php
 
-require_once("src/Repository.php");
+require_once("src/model/Repository.php");
 
 class UserRepository extends Repository
 {

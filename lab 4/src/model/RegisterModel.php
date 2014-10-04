@@ -1,8 +1,8 @@
 <?php
 
 //TODO: Är det verkligen en bra lösning i ValidateUserInput, if username & password == ""?
-require_once("src/UserRepository.php");
-require_once("src/User.php");
+require_once("src/model/UserRepository.php");
+require_once("src/model/User.php");
 
 class RegisterModel 
 {

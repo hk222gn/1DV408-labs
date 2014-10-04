@@ -1,9 +1,9 @@
 <?php
 
-require_once("src/LoginView.php");
-require_once("src/LoginModel.php");
-require_once("src/RegisterModel.php");
-require_once("src/RegisterView.php");
+require_once("src/view/LoginView.php");
+require_once("src/model/LoginModel.php");
+require_once("src/model/RegisterModel.php");
+require_once("src/view/RegisterView.php");
 
 //TODO:
 //The url attribute is still ?register even tho the login page is showing. Can't really fix that with header("Location: ?login"); because it's redirecting so the success message gets removed. @//HERE

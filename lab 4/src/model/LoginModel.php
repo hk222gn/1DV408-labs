@@ -1,5 +1,5 @@
 <?php
-require_once("src/UserRepository.php");
+require_once("src/model/UserRepository.php");
 
 class LoginModel
 {
